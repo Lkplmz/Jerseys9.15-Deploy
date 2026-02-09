@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../static/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <title>Error</title>
+  </head>
+  <body>
+    <div
+      class="w-full h-[90dvh] flex flex-col justify-center items-center"
+      style="font-family: Montserrat, sans-serif"
+    >
+      <div>
+        <h1 class="text-2xl">Error{% if type %}: {{ type }} {% endif %}</h1>
+        <hr />
+        <h2 class="text-xl text-center">{{ message }}</h2>
+      </div>
+    </div>
+  </body>
+</html>

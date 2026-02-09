@@ -1,0 +1,284 @@
+/* GLOBAL */
+:root {
+  --color-primary: #800018;
+  --color-secondary: #f74464;
+  --color-gray: #2d2d2d;
+  --color-bg: #292d48;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  letter-spacing: -1px;
+  font-weight: 400;
+  font-family: "Montserrat", "sans";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* REGISTER & LOGIN */
+
+.full-container {
+  height: 100dvh;
+  width: 100dvw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  font-weight: 300;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+form {
+  padding: 5px;
+  margin: 5px 0px 5px 0px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+form input {
+  height: 50px;
+
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding-left: 10px;
+
+  line-height: 10px;
+  font-size: 16px;
+}
+
+form textarea {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding-left: 10px;
+
+  line-height: 10px;
+  font-size: 16px;
+
+  resize: none;
+}
+
+form button {
+  margin-top: 40px;
+  height: 50px;
+  width: calc(100% + 12px);
+
+  cursor: pointer;
+
+  border-radius: 5px;
+  border: none;
+
+  background-color: var(--bs-blue);
+  transition: all ease-in-out 0.2s;
+}
+
+form button:hover {
+  filter: brightness(0.5);
+}
+
+/* STORE */
+.products-parent {
+  padding: 10px;
+}
+
+.image-container {
+  height: 50%;
+  display: flex;
+  object-fit: contain;
+  padding: 5px;
+}
+
+.card-img-top {
+  height: 100%;
+  justify-self: center;
+  align-self: center;
+  object-fit: contain;
+  object-position: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.changer::before {
+  content: "Ultimate";
+  animation: typewrite 4s infinite;
+  border-right: 3px solid;
+  padding-right: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@keyframes typewrite {
+  40% {
+    width: 0;
+    content: "Ultimate";
+  }
+  100% {
+    width: 0;
+    content: "Sound";
+  }
+}
+
+.modal-dialog {
+  justify-self: right;
+  position: absolute;
+  right: 0;
+  width: 60dvw;
+  top: 0px;
+  margin: 0;
+}
+
+.modal-content {
+  min-height: 100dvh;
+}
+
+.products-parent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+/* cart */
+
+.cart-btn {
+  height: 50px;
+  width: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.card-img-top {
+  width: 50%;
+}
+
+.cart-card-btn {
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.cart-body {
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5;
+}
+
+.cart-item {
+  padding: 10px;
+  margin: 0;
+  gap: 0;
+
+  box-shadow: 1px 1px 5px 1px lightgray;
+  border-radius: 5px;
+}
+
+.cart-item p {
+  margin: 0;
+}
+
+/* INDEX */
+.carousel-section {
+  position: relative;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  justify-content: center;
+}
+
+.carousel-section .carousel {
+  position: relative;
+  width: 100%;
+  height: 80dvh;
+}
+
+.carousel-section .carousel .carousel-item {
+  width: 100%;
+  height: 80dvh;
+
+  align-content: center;
+}
+.carousel-section .carousel .carousel-item img {
+  height: 40%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.intro-content {
+  background-color: var(--bg-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-image {
+  background-color: #000;
+  overflow: hidden;
+}
+
+.intro-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.9;
+}
+
+.intro-content h1 {
+  line-height: 0.9;
+  margin-bottom: 25px;
+}
+
+.intro-content p {
+  font-size: 1.25rem;
+  color: var(--text-main);
+
+  max-width: 420px;
+  font-weight: 400;
+}
+
+.btn-blue {
+  display: inline-block;
+  background-color: var(--accent-blue);
+  color: var(--white);
+  padding: 24px 50px;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.2s ease;
+  width: fit-content;
+}
+
+.btn-blue:hover {
+  transform: scale(1.05);
+  background-color: #000;
+}

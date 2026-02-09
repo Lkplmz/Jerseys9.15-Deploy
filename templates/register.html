@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../static/styles.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="full-container">
+      <div class="form-container">
+        <h1 style="font-size: 2.5em; font-weight: 300; margin: 0">Register</h1>
+        <hr />
+        <form action="/register" method="post">
+          <input
+            autocomplete="off"
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            autocomplete="off"
+          />
+          <input
+            autocomplete="off"
+            type="password"
+            name="confirmation"
+            placeholder="Confirm your password"
+            required
+          />
+
+          <button type="sumbit">Register</button>
+        </form>
+        <p>Already have an account? <a href="/login">Log in</a></p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,496 @@
+{% extends "layout.html" %} {% block itle %} Welcome! {% endblock %} {% block
+body %}
+
+<section class="carousel-section relative h-[90dvh] w-full overflow-hidden">
+  <div
+    class="absolute w-full h-full flex flex-col justify-center items-center gap-2 opacity-0 slide transition-all duration-700 ease-in-out opacity-0 translate-x-10 pointer-events-none"
+  >
+    <img
+      class="object-cover brightness-50 h-full w-full"
+      src="../static/assets/cover.jpg"
+    />
+    <div
+      class="absolute mt-40 w-full flex flex-col justify-center items-center"
+    >
+      <h1
+        class="text-5xl md:text-5xl font-extrabold text-center text-white px-8 m-4"
+      >
+        Los mejores jerseys de la ciudad
+      </h1>
+
+      <p class="text-lg text-white">Bienvenido a Jerseys 9.15</p>
+    </div>
+  </div>
+
+  <div
+    class="absolute w-full h-full flex flex-col justify-center items-center gap-2 opacity-0 slide transition-all duration-700 ease-in-out opacity-0 translate-x-10 pointer-events-none"
+  >
+    <div class="w-100 flex items-around content-between gap-10">
+      {% for p in bestsellers %}
+      <img
+        class="w-64 object-cover brightness-[1.07]"
+        src="{{ p.image_link }}"
+        alt="{{ p.name }}"
+      />
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-8">
+      <h1
+        class="text-2xl md:text-3xl font-extrabold text-center text-black px-8 mx-4"
+      >
+        Los más vendidos
+      </h1>
+
+      <p class="text-lg text-black">Echa un ojo en las tendencias.</p>
+    </div>
+  </div>
+
+  <div
+    class="absolute w-full h-full flex flex-col justify-center items-center gap-2 opacity-0 slide transition-all duration-700 ease-in-out opacity-0 translate-x-10 pointer-events-none"
+  >
+    <img
+      class="object-cover brightness-50 h-full w-full"
+      src="../static/assets/event-mundial.jpg"
+    />
+    <img
+      class="absolute mix-blend-screen bg-white w-[80dvw] md:w-[40dvw]"
+      src="../static/assets/mundial-banner.avif"
+    />
+    <div
+      class="absolute mt-[60dvh] w-full flex flex-col justify-center items-center"
+    >
+      <h1
+        class="text-2xl md:text-3xl font-extrabold text-center text-white px-8 m-4"
+      >
+        Proximamente
+      </h1>
+
+      <p class="text-lg text-white">
+        Vive con nosotros el Mundial de la FIFA 2026
+      </p>
+    </div>
+  </div>
+
+  <button
+    data-control="backward"
+    class="absolute flex left-[0] h-full w-[12%] justify-center items-center control z-10"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="size-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M15.75 19.5 8.25 12l7.5-7.5"
+      />
+    </svg>
+  </button>
+
+  <button
+    data-control="forward"
+    class="absolute flex right-[0] h-full w-[12%] justify-center items-center control z-10"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="size-6"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="m8.25 4.5 7.5 7.5-7.5 7.5"
+      />
+    </svg>
+  </button>
+</section>
+
+<section
+  class="relative min-h-[80dvh] lg:min-h-[100dvh] max-w-7xl mx-auto px-6 py-6 flex flex-col justify-center gap-12"
+>
+  <div class="space-y-2">
+    <div class="relative">
+      <div class="absolute inset-0 flex items-center px-8" aria-hidden="true">
+        <div class="w-full border-t border-gray-300"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <span
+          class="bg-white px-4 text-sm text-gray-500 font-light tracking-widest uppercase"
+        >
+          Sobre nosotros
+        </span>
+      </div>
+    </div>
+    <h1
+      class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight text-center"
+    >
+      ¿Qué es Jerseys 9.15?
+    </h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-around">
+    <div class="relative group">
+      <div
+        class="relative h-100 aspect-video lg:aspect-none lg:max-h-[60dvh] overflow-hidden rounded-lg bg-slate-100 flex items-center justify-center"
+      >
+        <div
+          class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-105"
+          style="
+            background-image: url(&quot;https://www.beyondtheordinary.co.uk/wp-content/uploads/2019/06/Cienfuegos-Cuba-Malecon.jpg&quot;);
+          "
+        >
+          <div
+            class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
+          ></div>
+        </div>
+
+        <div
+          class="relative z-10 w-40 h-40 md:w-56 md:h-56 p-1 rounded-full shadow-2xl flex items-center justify-center"
+        >
+          <img
+            class="rounded-full object-contain"
+            src="../static/assets/Jersey 9.15 PFP.png"
+            alt="Jerseys 9.15 Logo"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center space-y-6 p-2">
+      <p class="text-lg md:text-xl text-slate-600 leading-relaxed">
+        Siempre has querido conectar con tu club? Ya seas del Madrid, del Barça,
+        del Bayern o simplemente del
+        <span class="font-semibold text-slate-900">Fútbol</span>
+        estamos aquí para solucionar eso. Esto es Jerseys 9.15
+      </p>
+
+      <p class="text-lg md:text-xl text-slate-600">
+        Localizados en Cienfuegos, Cienfuegos, Cub, desde el 2024 somos una
+        tienda especializada en jerseys deportivos. Desde el punto penal, a los
+        9.15m, pensamos atinarle al '90 a tus gustos y tus espectativas.
+      </p>
+
+      <div class="pt-4 w-full justify-center flex lg:block">
+        <button
+          class="bg-slate-900 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-600 transition-colors shadow-lg shadow-slate-200"
+        >
+          Explorar Catálogo
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products-section py-8">
+  <h1
+    class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight text-center m-1"
+  >
+    Búsqueda rápida
+  </h1>
+  <p
+    class="text-lg md:text-xl text-slate-600 leading-relaxed text-center px-4 mx-2 mb-2"
+  >
+    Encuentra lo que buscas. Filtra nuestra colección y localiza la pieza exacta
+    que buscas en segundos.
+  </p>
+
+  <div class="min-h-[80dvh] bg-gray-100 flex flex-col mt-4">
+    <header
+      class="h-16 bg-white/10 border-b border-gray-200 flex items-center sticky top-20 z-10 px-6 backdrop-blur"
+    >
+      <div class="flex-1 max-w-2xl relative">
+        <span
+          class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400"
+        >
+          <svg
+            class="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </span>
+        <input
+          type="text"
+          id="searchbar"
+          placeholder="Buscar jersey por nombre o equipo..."
+          class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition shadow-sm"
+        />
+      </div>
+    </header>
+
+    <div class="flex flex-1">
+      <aside class="w-50 bg-white border-r border-gray-200 p-6">
+        <h2
+          class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4"
+        >
+          Categorias
+        </h2>
+
+        <nav class="space-y-1 mb-8">
+          <button
+            class="flex style_selector items-center px-3 py-2 text-sm font-medium rounded-md text-gray-800 hover:bg-gray-200 hover:text-gray-900 transition bg-indigo-200"
+          >
+            Todos
+          </button>
+          <button
+            data-filter="temporada"
+            class="flex style_selector items-center px-3 py-2 text-sm font-medium rounded-md text-gray-800 hover:bg-gray-200 hover:text-gray-900 transition"
+          >
+            Temporada
+          </button>
+          <button
+            data-filter="Selección"
+            class="flex style_selector items-center px-3 py-2 text-sm font-medium rounded-md text-gray-800 hover:bg-gray-200 hover:text-gray-900 transition"
+          >
+            Selección</button
+          ><button
+            data-filter="Retro"
+            class="flex style_selector items-center px-3 py-2 text-sm font-medium rounded-md text-gray-800 hover:bg-gray-200 hover:text-gray-900 transition"
+          >
+            Retro
+          </button>
+        </nav>
+      </aside>
+
+      <main class="w-full">
+        <div
+          id="filtered_container"
+          class="rounded-lg grid grid-cols-1 lg:grid-cols-2 p-2 gap-2 justify-items-center text-gray-400"
+        ></div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<div class="space-y-2">
+  <div class="relative">
+    <div class="absolute inset-0 flex items-center px-8" aria-hidden="true">
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span
+        class="bg-white px-4 text-sm text-gray-500 font-light tracking-widest uppercase"
+      >
+        Contáctenos
+      </span>
+    </div>
+  </div>
+  <h1
+    class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight text-center"
+  >
+    No encuentra lo que busca?
+  </h1>
+  <p class="text-slate-500 text-lg text-center px-4">
+    ¿Tienes dudas sobre un modelo específico o quieres hacer un encargo? Para
+    esto y mucho más contáctanos.
+  </p>
+</div>
+
+<section class="contact">
+  <div class="flex flex-col gap-4 justify-center items-center">
+    <div class="bg-white text-center px-6 py-8 w-full max-w-[700px]">
+      <form class="w-full">
+        <input
+          class="w-full"
+          type="text"
+          placeholder="Nombre"
+          required
+          name="name"
+          autocomplete="off"
+        />
+        <input
+          class="w-full"
+          type="email"
+          placeholder="Email"
+          required
+          name="email"
+          autocomplete="off"
+        />
+        <textarea
+          placeholder="Tu mensaje"
+          class="p-2 text-md leading-5 w-full"
+          rows="4"
+        ></textarea>
+        <button class="bg-black text-white uppercase w-full" type="submit">
+          Enviar
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials hidden">
+  <h2>Want to know before everyone?</h2>
+  <p>We will send you emails whenever a new product, or feature comes in</p>
+
+  <form class="newsletter-form" onsubmit="return false;">
+    <input type="email" placeholder="Email address" required name="email" />
+    <button type="submit">JOIN</button>
+  </form>
+</section>
+
+<section class="outro"></section>
+
+<script>
+  const controls = document.querySelectorAll(".control");
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+  function showSlides() {
+    if (currentSlide >= slides.length) {
+      currentSlide = 0;
+    } else if (currentSlide < 0) {
+      currentSlide = slides.length - 1;
+    }
+
+    slides.forEach((slide, index) => {
+      if (index === currentSlide) {
+        slide.classList.remove(
+          "opacity-0",
+          "translate-x-10",
+          "pointer-events-none",
+        );
+        slide.classList.add("opacity-100", "translate-x-0", "z-10");
+      } else {
+        slide.classList.add(
+          "opacity-0",
+          "translate-x-10",
+          "pointer-events-none",
+        );
+        slide.classList.remove("opacity-100", "translate-x-0", "z-10");
+      }
+    });
+  }
+
+  controls.forEach((control) => {
+    control.addEventListener("click", function () {
+      clearInterval(timer);
+      if (control.getAttribute("data-control") == "forward") {
+        currentSlide += 1;
+      } else {
+        currentSlide -= 1;
+      }
+
+      startSlides();
+      showSlides();
+    });
+  });
+
+  let timer;
+  function startSlides() {
+    timer = setInterval(() => {
+      currentSlide += 1;
+      showSlides();
+    }, 10000);
+  }
+
+  showSlides();
+  startSlides();
+
+  const styleBtns = document.querySelectorAll(".style_selector");
+  const catBtns = document.querySelectorAll(".cat_selector");
+  const filteredProducts = document.querySelector("#filtered_container");
+  const searchBar = document.querySelector("#searchbar");
+
+  let activeFilter;
+
+  styleBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      let active = document.querySelector(`.style_selector.${"bg-indigo-200"}`);
+      active?.classList.remove("bg-indigo-200");
+      active?.classList.add("hover:bg-gray-200", "hover:text-gray-900");
+
+      btn.classList.add("bg-indigo-200", "hover:bg-indigo-300");
+      btn.classList.remove("hover:bg-gray-200", "hover:text-gray-900");
+
+      activeFilter = btn.getAttribute("data-filter");
+
+      showProducts();
+    });
+  });
+
+  async function showProducts() {
+    const response = await fetch("/filter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filter: activeFilter }),
+    });
+
+    const data = await response.json();
+
+    filteredProducts.innerHTML = "";
+    if (data.length == 0) {
+      filteredProducts.innerHTML = `<p class="text-center font-bold text-lg">No hay productos para este criterio de busqueda.</p>`;
+    } else {
+      for (const d of data) {
+        filteredProducts.innerHTML += `
+         <div class="relative flex flex-row gap-2 text-gray-900 w-full border bg-white border-gray-100 shadow rounded" id="item-${d["id"]}">
+            <div class="w-40 h-40 items-center justify-center">
+              <img src="${d.image_link}" class="h-full w-full object-cover" alt="${d.name}">
+            </div>
+            <div class="flex flex-row px-2">
+              <div class="">
+                <h5 class="text-lg font-bold capitalize">Jersey ${d.name}</h5>
+                <p class="capitalize">${d.name}</p>
+                <p class="capitalize">${d.club}</p>
+                <p class="pst-group-item">${d.price} US </p>
+                <a class="absolute flex right-3 bottom-3 bg-[#292d48] w-[13%] h-[15%] p-2 items-center justify-center text-white rounded uppercase text-xs hover:bg-gray-400 transition" href="/store#${d.name}">Ver</a>
+              </div>
+            </div>
+          </div>`;
+      }
+    }
+  }
+
+  searchBar.addEventListener("input", async function () {
+    const response = await fetch("/filter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: searchBar.value }),
+    });
+
+    const data = await response.json();
+
+    filteredProducts.innerHTML = "";
+    if (data.length == 0) {
+      filteredProducts.innerHTML = `<p class="text-center font-bold text-lg">No hay productos para este criterio de busqueda.</p>`;
+    } else {
+      for (const d of data) {
+        filteredProducts.innerHTML += `
+         <div class="relative flex flex-row gap-2 text-gray-900 w-full border bg-white border-gray-100 shadow rounded" id="item-${d["id"]}">
+            <div class="w-40 h-40 items-center justify-center">
+              <img src="${d.image_link}" class="h-full w-full object-cover" alt="${d.name}">
+            </div>
+            <div class="flex flex-row px-2">
+              <div class="">
+                <h5 class="text-lg font-bold capitalize">Jersey ${d.name}</h5>
+                <p class="capitalize">${d.name}</p>
+                <p class="capitalize">${d.club}</p>
+                <p class="pst-group-item">${d.price} US </p>
+                <a class="absolute flex right-3 bottom-3 bg-[#292d48] w-[13%] h-[15%] p-2 items-center justify-center text-white rounded uppercase text-xs hover:bg-gray-400 transition" href="/store#${d.name}">Ver</a>
+              </div>
+            </div>
+          </div>`;
+      }
+    }
+  });
+
+  showProducts();
+</script>
+
+{% endblock %}

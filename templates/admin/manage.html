@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+      }
+
+      /* Estilos de navegación activa */
+      .active-link {
+        background-color: #eff6ff;
+        color: #2563eb;
+      }
+      @media (min-width: 768px) {
+        .active-link {
+          border-right: 4px solid #2563eb;
+          border-radius: 0.5rem 0 0 0.5rem;
+        }
+      }
+
+      /* Control de páginas */
+      .page-content {
+        display: none;
+      }
+      .page-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Ocultar scrollbar pero mantener funcionalidad */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex flex-col h-screen w-full">
+      <div
+        class="p-6 border-b border-slate-100 bg-white flex justify-between items-center shrink-0"
+      >
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">
+            {% if actionType %} {% if actionType == "Add" %} Añadir {% elif
+            actionType == "Edit" %} Editar {% elif actionType == "Remove" %}
+            Eliminar {% endif %} un jersey {% else %} Administar {% endif %}
+          </h2>
+
+          <p class="text-sm text-slate-400">
+            Añade, edita y/o elimina jerseys de la página.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6 md:p-10 bg-slate-50/30">
+        <div class="max-w-4xl mx-auto">
+          {% if actionType %} {% if actionType == "Edit" %}
+          <form
+            action="/admin/manage"
+            method="post"
+            id="addProduct"
+            class="flex-col gap-4 justify-center grid grid-cols-1"
+          >
+            <label class="block text-xl font-medium text-slate-700">
+              Selecciona el jersey a editar</label
+            >
+            <p class="text-xs text-slate-500">
+              ADVERTENCIA: Lo que no se desea editar dejarse en blanco
+            </p>
+            <select
+              class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded-xl shadow-sm leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              name="product"
+            >
+              <option hidden>Selecciona el jersey</option>
+              {% for product in products %}
+              <option value="{{ product.name }}">{{ product.name }}</option>
+              {% endfor %}
+            </select>
+
+            <label class="block text-xl font-medium text-slate-700"
+              >Editar</label
+            >
+            <label class="block text-md font-medium text-slate-700"
+              >Nombre:</label
+            >
+            <input
+              autocomplete="off"
+              placeholder="Ex: Item. (Max 40 char.)"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="name"
+            />
+            <label class="block text-md font-medium text-slate-700"
+              >Precio:</label
+            >
+            <input
+              autocomplete="off"
+              type="number"
+              min="0"
+              step="0.01"
+              pattern="\d*"
+              placeholder="Ex: 29.0"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="price"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Cantidad (Stock):</label
+            >
+            <input
+              autocomplete="off"
+              type="number"
+              step="1"
+              min="1"
+              pattern="\d*"
+              placeholder="Ex: 5"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="stock"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Link a Imagen:</label
+            >
+            <p class="text-xs text-slate-500">
+              El link de imagen debe comenzar con un protocolo válido
+              (http/https) y terminar con un formato de imagen (.jpg, .png,
+              .webp).
+            </p>
+            <p class="text-xs text-slate-500">
+              Se recomienda poner tu propia imagen. Si esto no se hace, el
+              sistema es capaz de encontrar una imagen por si solo.
+            </p>
+            <input
+              autocomplete="off"
+              placeholder="Ex: https://google.com/google.jpg"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="image_link"
+              pattern="https?://.*\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Categoría:</label
+            >
+
+            <input
+              autocomplete="off"
+              placeholder="Ex: Temporada, Retro, etc..."
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="category"
+              maxlength="80"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Club:</label
+            >
+            <input
+              autocomplete="off"
+              placeholder="Ex: Real Madrid, Barcelona, Bayern, etc..."
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="club"
+              maxlength="60"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Descripción:</label
+            >
+            <p class="text-xs text-slate-500">
+              Si no se aprovisiona de una descripcion la página mostrará este
+              mensaje "No hay una descripcion de este producto."
+            </p>
+            <textarea
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none resize-none"
+              rows="4"
+              name="description"
+              placeholder="Optional: Description about the product. (Max 140 char.)"
+            ></textarea>
+
+            <input name="actionType" value="{{ actionType }}" hidden />
+          </form>
+
+          {% elif actionType == "Remove" %}
+          <form
+            action="/admin/manage"
+            method="post"
+            id="addProduct"
+            class="flex-col gap-4 justify-center grid grid-cols-1"
+          >
+            <label class="block text-md font-medium text-slate-700"
+              >Jersey a eliminar</label
+            >
+            <p class="text-xs text-slate-500">
+              El jersey será eliminado junto su información de la tienda.
+            </p>
+            <select
+              class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded-xl shadow-sm leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              name="product"
+            >
+              <option hidden>Selecciona el jersey</option>
+              {% for product in products %}
+              <option value="{{ product.name }}">{{ product.name }}</option>
+              {% endfor %}
+            </select>
+
+            <label class="block text-md font-medium text-slate-700"
+              >Confirma tu contraseña de administrador</label
+            >
+            <input
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+            />
+
+            <input name="actionType" value="{{ actionType }}" hidden />
+          </form>
+
+          {% elif actionType == "Add" %}
+          <form
+            action="/admin/manage"
+            method="post"
+            id="addProduct"
+            class="flex-col gap-4 justify-center grid grid-cols-1"
+          >
+            <label class="block text-md font-medium text-slate-700"
+              >Nombre:</label
+            >
+            <input
+              required
+              autocomplete="off"
+              placeholder="Ex: Jersey Rodrygo Temporada 2024-2025"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="name"
+              maxlength="40"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Precio:</label
+            >
+            <input
+              required
+              autocomplete="off"
+              type="number"
+              min="0"
+              step="0.01"
+              pattern="\d*"
+              placeholder="Ex: 29.0"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="price"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Cantidad (Stock):</label
+            >
+            <input
+              required
+              autocomplete="off"
+              type="number"
+              step="1"
+              min="1"
+              pattern="\d*"
+              placeholder="Ex: 5"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="stock"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Link a Imagen:</label
+            >
+            <p class="text-xs text-slate-500">
+              El link de imagen debe comenzar con un protocolo válido
+              (http/https) y terminar con un formato de imagen (.jpg, .png,
+              .webp).
+            </p>
+            <p class="text-xs text-slate-500">
+              Se recomienda poner tu propia imagen. Si esto no se hace, el
+              sistema es capaz de encontrar una imagen por si solo.
+            </p>
+            <input
+              autocomplete="off"
+              placeholder="Ex: https://google.com/google.jpg"
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="image_link"
+              pattern="https?://.*\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Categoría:</label
+            >
+
+            <input
+              required
+              autocomplete="off"
+              placeholder="Ex: Temporada, Retro, etc..."
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="category"
+              maxlength="80"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Club:</label
+            >
+            <input
+              required
+              autocomplete="off"
+              placeholder="Ex: Real Madrid, Barcelona, Bayern, etc..."
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none"
+              name="club"
+              maxlength="60"
+            />
+
+            <label class="block text-md font-medium text-slate-700"
+              >Descripción:</label
+            >
+            <p class="text-xs text-slate-500">
+              Si no se aprovisiona de una descripcion la página mostrará este
+              mensaje "No hay una descripcion de este producto."
+            </p>
+            <textarea
+              class="w-full appearance-none px-4 py-2 rounded-lg border border-slate-300 focus:ring-blue-500 focus:ring-2 outline-none resize-none"
+              rows="4"
+              maxlength="120"
+              name="description"
+              placeholder="Ex: Descripcion acerca del jersey. (Máx 120 caracteres)"
+            ></textarea>
+
+            <input name="actionType" value="{{ actionType }}" hidden />
+
+            <button type="submit"></button>
+          </form>
+          {% else %}
+          <p>Invalid action or server error.</p>
+          {% endif %} {% else %}
+          <h2 class="text-lg text-slate-800 font-bold mb-4">
+            Selecciona tu acción
+          </h2>
+          <form
+            action="/admin/manage"
+            method="get"
+            id="addProduct"
+            class="flex gap-4"
+          >
+            <select
+              class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded-xl shadow-sm leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              name="actionType"
+            >
+              <option value="Add">Añadir un jersey</option>
+              <option value="Edit">Editar un jersey</option>
+              <option value="Remove">Eliminar un jersey</option>
+            </select>
+            <button
+              class="px-6 py-2.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-all shadow-lg shrink-0"
+              type="submit"
+            >
+              Siguiente
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+
+      <div
+        class="p-6 border-t border-slate-100 bg-white flex justify-start space-x-3 shrink-0"
+      >
+        {% if actionType %}
+        <a
+          href="/admin/manage"
+          class="px-6 py-2.5 text-slate-500 font-semibold hover:bg-slate-50 rounded-xl transition-all"
+        >
+          Atrás
+        </a>
+
+        <button
+          form="addProduct"
+          type="submit"
+          class="px-6 py-2.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-all shadow-lg"
+        >
+          Confirmar
+        </button>
+        {% else %}
+        <a
+          href="/admin"
+          class="px-6 py-2.5 text-slate-500 font-semibold hover:bg-slate-50 rounded-xl transition-all"
+        >
+          Cancelar
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

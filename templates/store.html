@@ -1,0 +1,67 @@
+{% extends "layout.html" %} {% block title %} Welcome {% endblock %} {% block
+body %}
+<div
+  class="container-fluid w-full flex justify-content-center font-bold text-center align-content-center"
+  style="
+    height: 60dvh;
+    background-color: var(--bs-blue);
+    margin: 0;
+    padding: 20px;
+  "
+>
+  <h1 class="h1">
+    The <span class="changer" style="color: white"></span> Store
+  </h1>
+</div>
+
+<h2 class="text-center" style="margin: 30px">
+  Explore all the current available products
+</h2>
+
+<div class="products-parent">
+  {% for product in products %}
+  <div class="card" id="{{ product.name }}">
+    <div class="image-container justify-content-center align-items-center">
+      <img
+        class="card-img-top"
+        src="{{ product.image_link }}"
+        alt="Card image cap"
+      />
+    </div>
+    <div class="card-body" style="align-self: end">
+      <h5 class="card-title">{{ product.name }}</h5>
+      <p class="card-text">{{ product.description }}</p>
+      <p class="card-text">${{ product.price }} US</p>
+      <button
+        type="submit"
+        data-id="{{product.id}}"
+        class="btn btn-primary addToCart"
+      >
+        Add to cart
+      </button>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% block script %}
+<script>
+  addBtns = document.querySelectorAll(".addToCart");
+  addBtns.forEach((btn) => {
+    btn.addEventListener("click", async function () {
+      let id = btn.getAttribute("data-id");
+
+      const formdata = new FormData();
+      formdata.append("id", id);
+
+      const response = await fetch("/store", {
+        method: "POST",
+        body: formdata,
+      });
+
+      const data = await response.json();
+      show_cart();
+    });
+  });
+</script>
+{% endblock %} {% endblock %}

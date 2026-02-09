@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+      }
+
+      /* Estilos de navegación activa */
+      .active-link {
+        background-color: #eff6ff;
+        color: #2563eb;
+      }
+      @media (min-width: 768px) {
+        .active-link {
+          border-right: 4px solid #2563eb;
+          border-radius: 0.5rem 0 0 0.5rem;
+        }
+      }
+
+      /* Control de páginas */
+      .page-content {
+        display: none;
+      }
+      .page-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Ocultar scrollbar pero mantener funcionalidad */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col md:flex-row h-screen overflow-hidden">
+    <!-- Notificaciones Flotantes -->
+    <div
+      id="notif"
+      class="fixed top-5 right-5 z-50 transform translate-x-full transition-transform duration-300 w-72 sm:w-auto"
+    >
+      <div
+        class="bg-white border-l-4 border-blue-600 shadow-2xl p-4 rounded-r-lg flex items-center space-x-3"
+      >
+        <span id="notif-icon"></span>
+        <p id="notif-msg" class="text-sm font-medium text-slate-700"></p>
+      </div>
+    </div>
+
+    <!-- Sidebar / Navegación Móvil -->
+    <!-- En Desktop: Lateral izquierda | En Móvil: Barra inferior fija -->
+    <aside
+      class="w-full md:w-64 bg-white border-t md:border-t-0 md:border-r border-slate-200 flex flex-row md:flex-col order-2 md:order-1 fixed bottom-0 md:relative z-50"
+    >
+      <div class="hidden md:flex p-8 items-center space-x-2">
+        <div
+          class="w-20 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-200"
+        >
+          Ultimate
+        </div>
+        <span class="text-blue-600">Admin</span>
+      </div>
+
+      <nav
+        class="flex-1 flex md:flex-col justify-around md:justify-start px-2 md:px-4 py-2 md:py-0 md:space-y-1 w-full"
+      >
+        <button
+          onclick="showPage('dashboard')"
+          id="btn-dashboard"
+          class="nav-btn flex flex-col md:flex-row items-center p-2 md:p-3 rounded-xl text-slate-500 hover:bg-slate-50 transition-all active-link"
+        >
+          <span class="text-[10px] md:text-sm font-semibold">Panel</span>
+        </button>
+        <button
+          onclick="showPage('inventory')"
+          id="btn-inventory"
+          class="nav-btn flex flex-col md:flex-row items-center p-2 md:p-3 rounded-xl text-slate-500 hover:bg-slate-50 transition-all"
+        >
+          <span class="text-[10px] md:text-sm font-semibold">Stock</span>
+        </button>
+        <button
+          onclick="showPage('orders')"
+          id="btn-orders"
+          class="nav-btn flex flex-col md:flex-row items-center p-2 md:p-3 rounded-xl text-slate-500 hover:bg-slate-50 transition-all"
+        >
+          <span class="text-[10px] md:text-sm font-semibold">Transactions</span>
+        </button>
+        <button
+          onclick="showPage('customers')"
+          id="btn-customers"
+          class="nav-btn flex flex-col md:flex-row items-center p-2 md:p-3 rounded-xl text-slate-500 hover:bg-slate-50 transition-all"
+        >
+          <span class="text-[10px] md:text-sm font-semibold">Customers</span>
+        </button>
+        <a
+          href="/logout"
+          class="md:hidden flex flex-col items-center p-2 rounded-xl text-slate-400 hover:text-rose-500"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span class="text-[10px] font-semibold">Salir</span>
+        </a>
+      </nav>
+
+      <!-- Perfil (Oculto en móvil para ahorrar espacio) -->
+      <div
+        class="hidden md:flex p-6 border-t border-slate-100 items-center space-x-3"
+      >
+        <div
+          class="w-10 h-10 rounded-full bg-blue-100 overflow-hidden ring-2 ring-blue-50"
+        >
+          <img
+            src="https://api.dicebear.com/7.x/initials/svg?seed=Admin&backgroundColor=cbd5e1&fontSize=45"
+            alt="User"
+          />
+        </div>
+        <div class="overflow-hidden">
+          <p class="text-sm font-bold text-slate-800 truncate">Admin</p>
+          <p class="text-xs text-slate-500">Administrator</p>
+        </div>
+        <a
+          href="/logout"
+          title="Cerrar sesión"
+          class="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors ml-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Area Principal -->
+    <main
+      class="flex-1 flex flex-col h-full overflow-hidden order-1 md:order-2"
+    >
+      <!-- Top Navbar -->
+      <header
+        class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-4 md:px-8 shrink-0"
+      >
+        <div class="flex items-center md:hidden space-x-2">
+          <div
+            class="w-21 h-7 bg-blue-600 rounded flex items-center justify-center text-white font-bold text-xs px-2"
+          >
+            Ultimate
+          </div>
+          <h2 id="mobile-page-title" class="text-sm font-bold text-slate-800">
+            Panel
+          </h2>
+        </div>
+        <h2
+          id="page-title"
+          class="hidden md:block text-lg font-bold text-slate-800 uppercase tracking-wider"
+        >
+          Dashboard
+        </h2>
+
+        <div class="flex items-center space-x-3 md:space-x-5">
+          <div
+            class="md:hidden w-8 h-8 rounded-full bg-slate-200 overflow-hidden"
+          >
+            <img
+              src="https://api.dicebear.com/7.x/initials/svg?seed=Admin&backgroundColor=cbd5e1&fontSize=45"
+              alt="User"
+            />
+          </div>
+        </div>
+      </header>
+
+      <!-- Contenedor de Scroll de Contenido -->
+      <div class="flex-1 overflow-y-auto p-4 md:p-8 no-scrollbar pb-24 md:pb-8">
+        <!-- PAGE: PANEL -->
+        <section id="page-dashboard" class="page-content active">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8"
+          >
+            <div
+              class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between"
+            >
+              <div>
+                <p
+                  class="text-xs text-slate-500 font-bold uppercase tracking-widest"
+                >
+                  Alltime Sales
+                </p>
+                <h3 class="text-2xl font-extrabold text-slate-800 mt-1">
+                  {{ dashboard.sales }}
+                </h3>
+              </div>
+            </div>
+            <div
+              class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between"
+            >
+              <div>
+                <p
+                  class="text-xs text-slate-500 font-bold uppercase tracking-widest"
+                >
+                  Total Users
+                </p>
+                <h3 class="text-2xl font-extrabold text-slate-800 mt-1">
+                  {{ dashboard.users - 1}}
+                </h3>
+              </div>
+            </div>
+            <div
+              class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between sm:col-span-2 lg:col-span-1"
+            >
+              <div>
+                <p
+                  class="text-xs text-slate-500 font-bold uppercase tracking-widest"
+                >
+                  All time earnings
+                </p>
+                <h3 class="text-2xl font-extrabold text-slate-800 mt-1">
+                  ${{ dashboard.earnings }}
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 h-[350px]"
+          >
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="font-bold text-slate-800">Monthly income</h3>
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
+                <span class="text-xs text-slate-500 font-medium"
+                  >Sales in 2025</span
+                >
+              </div>
+            </div>
+            <div class="h-full max-h-[250px]">
+              <canvas id="mainChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAGE: INVENToRY -->
+        <section id="page-inventory" class="page-content">
+          <div class="bg-white overflow-hidden">
+            <div
+              class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              <h3 class="font-bold text-slate-800">Stock</h3>
+              <a
+                href="/admin/manage"
+                class="bg-blue-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-100"
+              >
+                Manage stock
+              </a>
+            </div>
+
+            {% if products %}
+            <div class="overflow-x-auto">
+              <table class="w-full text-left min-w-[500px]">
+                <thead
+                  class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold"
+                >
+                  <tr>
+                    <th class="px-6 py-4">Product</th>
+                    <th class="px-6 py-4">Stock</th>
+                    <th class="px-6 py-4">Price</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm">
+                  {% for product in products %}
+                  <tr class="hover:bg-slate-50/50 transition-colors">
+                    <td class="px-6 py-4 font-semibold text-slate-700">
+                      {{ product.name }}
+                    </td>
+                    <td class="px-6 py-4 text-slate-500">
+                      {{ product.stock }}
+                    </td>
+                    <td class="px-6 py-4 font-bold text-slate-800">
+                      ${{ product.price }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% else %}
+          <div class="overflow-x-auto flex justify-center">
+            <h2>No products on stock</h2>
+          </div>
+          {% endif %}
+        </section>
+
+        <!-- PAGE: TRANSACTIONS -->
+        <section id="page-orders" class="page-content">
+          <div class="space-y-4" id="orders-container">
+            <!-- Cards de Pedidos Adaptables -->
+            {% if transactions %} {% for transaction in transactions %}
+            <div
+              class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            >
+              <div class="flex items-center space-x-4">
+                <div>
+                  <p class="font-bold text-slate-800 text-sm">
+                    Transaction #{{ transaction.id }}
+                  </p>
+                  {% for user in users %} {% if user.id == transaction.user_id
+                  %}
+                  <p class="text-xs text-slate-500 font-medium">
+                    User: {{ user.name }}
+                  </p>
+                  <p class="text-xs text-slate-500 font-medium">
+                    Id:{{ user.id }} {% endif %} {% endfor %}
+                  </p>
+                </div>
+              </div>
+              <div
+                class="flex w-full sm:w-auto items-center justify-between sm:justify-end sm:space-x-8 border-t sm:border-t-0 pt-3 sm:pt-0"
+              >
+                <div class="text-left sm:text-right">
+                  <p class="font-bold text-slate-800">
+                    ${{ transaction.price }}
+                  </p>
+                  <p
+                    class="text-[10px] text-blue-600 font-bold uppercase tracking-tight"
+                  >
+                    {{ transaction.date }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endfor %} {% else %}
+            <div class="w-full flex flex-col justify-center">
+              <p class="text-md font-bold text-slate-800 text-center">
+                No transactions yet!
+              </p>
+            </div>
+            {% endif %}
+          </div>
+        </section>
+
+        <!-- PAGE: CUSTOMERS -->
+        <section id="page-customers" class="page-content">
+          <div class="grid grid-cols-1 gap-4">
+            {% if users %} {% for user in users %}
+            <div
+              class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:border-blue-200 transition-all cursor-pointer"
+            >
+              <div class="flex items-center space-x-4">
+                <div
+                  class="w-12 h-12 bg-slate-200 text-slate-800 rounded-full flex items-center justify-center font-bold"
+                >
+                  {{ user.name | first_letter }}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-bold text-slate-800 truncate">
+                    {{ user.name }}
+                  </p>
+                  <p class="text-xs text-slate-500 truncate">
+                    User ID: {{ user.id }}
+                  </p>
+                </div>
+              </div>
+              <div
+                class="mt-4 pt-4 border-t border-slate-50 flex justify-between items-center text-[10px] font-bold"
+              >
+                <span class="text-slate-400 uppercase">Transactions</span>
+                <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md"
+                  >{% set ns = namespace(all=0) %} {% for transaction in
+                  transactions %} {% if transaction.user_id == user.id %} {% set
+                  ns.all = ns.all + 1 %} {% endif %} {% endfor %} {{ ns.all
+                  }}</span
+                >
+              </div>
+            </div>
+            {% endfor %} {% else %}
+            <div class="w-full flex flex-col justify-center">
+              <p class="text-md font-bold text-slate-800 text-center">
+                No user registered yet!
+              </p>
+            </div>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="data-getter" class="data-getter" style="display: none">
+      {{ server_chart_data }}
+    </div>
+
+    <script>
+      // The 'errors' are solved with Jinja, JS don't read the placeholders
+      chart_data = {{ server_chart_data }};
+
+      function showPage(pageId) {
+        // Ocultar todas las páginas
+        document
+          .querySelectorAll(".page-content")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active-link"));
+
+        // Mostrar la seleccionada
+        document.getElementById(`page-${pageId}`).classList.add("active");
+        document.getElementById(`btn-${pageId}`).classList.add("active-link");
+
+        // Actualizar Títulos (Escritorio y Móvil)
+        const titles = {
+          dashboard: "Dashboard",
+          inventory: "Stock",
+          orders: "Transactions",
+          customers: "Customers",
+        };
+        document.getElementById("page-title").innerText = titles[pageId];
+        document.getElementById("mobile-page-title").innerText = titles[pageId];
+
+        // Scroll al top al cambiar de página
+        document.querySelector("main .overflow-y-auto").scrollTo(0, 0);
+      }
+
+      // --- SISTEMA DE NOTIFICACIONES ---
+      function toast(msg, icon) {
+        const notif = document.getElementById("notif");
+        document.getElementById("notif-msg").innerText = msg;
+        document.getElementById("notif-icon").innerText = icon;
+
+        notif.classList.remove("translate-x-full");
+        setTimeout(() => {
+          notif.classList.add("translate-x-full");
+        }, 3000);
+      }
+
+      function addProduct(status) {
+        const container = document.getElementById("modal-container");
+        if (status) {
+          container.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+        } else {
+          container.classList.add("hidden");
+          document.body.style.overflow = "auto";
+        }
+      }
+
+      // --- Lite Chart ---
+      const ctx = document.getElementById("mainChart").getContext("2d");
+      const chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+          datasets: [
+            {
+              label: "Sales in $US",
+              data: chart_data,
+              backgroundColor: "#2563eb",
+              hoverBackgroundColor: "#1d4ed8",
+              borderRadius: 6,
+              barThickness: "flex",
+              maxBarThickness: 30,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: "#1e293b",
+              padding: 10,
+              titleFont: { size: 12, family: "Plus Jakarta Sans" },
+              bodyFont: { size: 14, family: "Plus Jakarta Sans" },
+              cornerRadius: 8,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              border: { display: false },
+              grid: { color: "#f1f5f9" },
+              ticks: {
+                callback: (value) => "$" + value / 1000 + "k",
+                font: { size: 10 },
+              },
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 10 } },
+            },
+          },
+        },
+      });
+
+      window.onload = () => {
+        // Notificación de bienvenida
+        setTimeout(() => toast("Page updated!", ""), 500);
+      };
+    </script>
+  </body>
+</html>
