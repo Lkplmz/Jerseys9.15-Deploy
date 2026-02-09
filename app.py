@@ -6,7 +6,7 @@ from sqlalchemy import func, or_
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
-from dotenv import load_dotenv
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -39,7 +39,6 @@ def index():
         .group_by(Products.id)\
         .order_by(func.count(Transactions.id).desc()).all())
 
-    print(results)
     bestsellers = [{"name": p[0].name, "image_link": p[0].image_link} for p in results]
 
     for r in recently_added:
@@ -280,7 +279,6 @@ def admin():
         date = datetime.strptime(t.date, "%m/%d/%Y - %I:%M%p")
         month = date.month - 1
         chart_data[month] += t.price
-    print(chart_data)
 
     return render_template("/admin/admin.html", dashboard=dashboard, transactions=transactions, products=stock, users=users, server_chart_data=chart_data)
 

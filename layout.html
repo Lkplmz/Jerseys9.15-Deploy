@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../static/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <title>{% block title %} {% endblock %}</title>
+  </head>
+  <body>
+    <nav class="sticky top-0 w-full m-0 z-20 p-0">
+      <div
+        class="flex flex-row items-center justify-between p-1 px-4 h-20 bg-[#292d48] shadow-md"
+      >
+        <div
+          class="px-0 ml-[-10px] cursor-pointer"
+          onclick="window.location.href = '/'"
+        >
+          <img
+            class="object-contain mix-blend-mode"
+            src="../static/assets/Jersey 9.15 Banner.png"
+          />
+        </div>
+        <div class="flex flex-row flex-1 justify-start gap-4 items-center">
+          <a class="hidden sm:block hover:underline text-gray-400" href="/"
+            >Inicio</a
+          >
+          <a class="hover:underline text-gray-400" href="/store">Tienda</a>
+          <a
+            class="hidden md:block hover:underline text-gray-400"
+            href="/account"
+            >Cuenta</a
+          >
+        </div>
+        <div class="gap-5 justify-center items-center flex flex-row">
+          <button
+            type="button"
+            data-toggle="modal"
+            data-target="cart"
+            id="cartBtn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 16 16"
+              fill="#9ca3af"
+            >
+              <path
+                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            data-toggle="modal"
+            data-target="menu"
+            id="menuBtn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#fff"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="#9ca3af"
+              class="size-7"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!--CART-->
+    <div
+      id="cart"
+      data-target="cart"
+      class="fixed inset-0 z-20 invisible opacity-0 transition-all duration-300 backdrop-blur-sm bg-black/20"
+    >
+      <div
+        class="fixed top-0 right-0 z-30 h-screen w-4/5 translate-x-full bg-white shadow-md transition-transform duration-300 ease-in-out md:w-[700px]"
+      >
+        <div
+          class="h-20 flex flex-row justify-between items-center px-4 shadow-md"
+        >
+          <h1 class="text-xl">CARRITO</h1>
+          <button data-target="cart" onclick="toggleModal('cart')">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          id="products-in-cart"
+          class="text-center py-4 gap-2 flex flex-col justify-center"
+        ></div>
+      </div>
+    </div>
+
+    <!--MENU-->
+    <div
+      id="menu"
+      data-target="menu"
+      class="fixed inset-0 z-20 invisible opacity-0 transition-all duration-300 backdrop-blur-sm bg-black/20"
+    >
+      <div
+        class="fixed top-0 right-0 z-30 h-screen w-3/4 translate-x-full bg-white shadow-md transition-transform duration-300 ease-in-out md:w-[500px]"
+      >
+        <div
+          class="h-20 flex flex-row justify-between items-center px-4 shadow-md"
+        >
+          <h1 class="text-xl">MENU</h1>
+          <button data-target="menu" onclick="toggleModal('menu')">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="h-full flex flex-col gap-4 items-start px-8 py-4">
+          <div class="h-[80%] flex flex-col gap-4">
+            <a
+              class="text-lg text-cyan-600 hover:translate-x-1 ease-in-out duration-200 hover:underline"
+              href="/"
+              >Inicio</a
+            >
+            <a
+              class="text-lg text-cyan-600 hover:translate-x-1 ease-in-out duration-200 hover:underline"
+              href="/store"
+              >Tienda</a
+            >
+            <a
+              class="text-lg text-cyan-600 hover:translate-x-1 ease-in-out duration-200 hover:underline"
+              href="#"
+              >Haz un pedido</a
+            >
+            <a
+              class="text-lg text-cyan-600 hover:translate-x-1 ease-in-out duration-200 hover:underline"
+              href="/account"
+              >Cuenta</a
+            >
+          </div>
+          <div class="self-end justify-self-end">
+            <a href="#" class="text-green-600 text-md">(Wtsp)</a>
+            <a href="#" class="text-fuchsia-600 text-md">(Inst)</a>
+            <a href="#" class="text-slate-600 text-md">(Pers)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block body %} {% endblock %}
+  </body>
+
+  <footer class="w-full mt-4 my-1 text-white">
+    <div class="flex flex-col bg-black mx-1 rounded-md p-4 pt-8 gap-2">
+      <div
+        class="grid grid-cols-1 justify-around items-start text-left sm:grid-cols-2 gap-8 w-full mb-8"
+      >
+        <div class="flex flex-col justify-center items-left ml-6">
+          <h2 class="text-2xl">Jerseys 9.15</h2>
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Contactenos</a
+          >
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Hacer un encargo</a
+          >
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Colaborar</a
+          >
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Necesitas ayuda?</a
+          >
+        </div>
+        <div class="flex flex-col justify-center items-left ml-6">
+          <h2 class="text-2xl">Redes Sociales</h2>
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Instagram</a
+          >
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Dev</a
+          >
+          <a
+            class="text-md mx-2 hover:translate-x-1 ease-in duration-200"
+            href="#"
+            >Whatsapp</a
+          >
+        </div>
+      </div>
+      <div class="flex items-center">
+        <hr class="bg-white w-1/2" />
+        <svg
+          width="64px"
+          height="64px"
+          viewBox="-256 -256 1024.00 1024.00"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#fff"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              fill="#fff"
+              d="M255.03 33.813c-1.834-.007-3.664-.007-5.5.03-6.73.14-13.462.605-20.155 1.344.333.166.544.32.47.438L204.78 75.063l73.907 49.437-.125.188 70.625.28L371 79.282 342.844 52c-15.866-6.796-32.493-11.776-49.47-14.78-12.65-2.24-25.497-3.36-38.343-3.407zM190.907 88.25l-73.656 36.78-13.813 98.407 51.344 33.657 94.345-43.438 14.875-76.5-73.094-48.906zm196.344.344l-21.25 44.5 36.75 72.72 62.063 38.905 11.312-21.282c.225.143.45.403.656.75-.77-4.954-1.71-9.893-2.81-14.782-6.446-28.59-18.59-55.962-35.5-79.97-9.07-12.872-19.526-24.778-31.095-35.5l-20.125-5.342zm-302.656 23c-6.906 8.045-13.257 16.56-18.938 25.5-15.676 24.664-26.44 52.494-31.437 81.312C31.783 232.446 30.714 246.73 31 261l20.25 5.094 33.03-40.5L98.75 122.53l-14.156-10.936zm312.719 112.844l-55.813 44.75-3.47 101.093 39.626 21.126 77.188-49.594 4.406-78.75-.094.157-61.844-38.783zm-140.844 6.406l-94.033 43.312-1.218 76.625 89.155 57.376 68.938-36.437 3.437-101.75-66.28-39.126zm-224.22 49.75c.91 8.436 2.29 16.816 4.156 25.094 6.445 28.59 18.62 55.96 35.532 79.968 3.873 5.5 8.02 10.805 12.374 15.938l-9.374-48.156.124-.032-27.03-68.844-15.782-3.968zm117.188 84.844l-51.532 8.156 10.125 52.094c8.577 7.49 17.707 14.332 27.314 20.437 14.612 9.287 30.332 16.88 46.687 22.594l62.626-13.69-4.344-31.124-90.875-58.47zm302.437.5l-64.22 41.25-42 47.375 4.408 6.156c12.027-5.545 23.57-12.144 34.406-19.72 23.97-16.76 44.604-38.304 60.28-62.97 2.51-3.947 4.87-7.99 7.125-12.092zm-122.78 97.656l-79.94 9.625-25.968 5.655c26.993 4 54.717 3.044 81.313-2.813 9.412-2.072 18.684-4.79 27.75-8.062l-3.156-4.406z"
+            ></path>
+          </g>
+        </svg>
+        <hr class="bg-white w-1/2" />
+      </div>
+      <p class="text-center text-md">
+        Jerseys 9.15 &copy; &reg; Todos los derechos reservados
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleModal(id) {
+      const modal = document.getElementById(id);
+      const panel = modal.querySelector("div");
+
+      const isOpen = !modal.classList.contains("invisible");
+
+      if (!isOpen) {
+        document.body.classList.add("overflow-hidden");
+        modal.classList.remove("invisible", "opacity-0");
+        modal.classList.add("opacity-100");
+        panel.classList.remove("translate-x-full");
+        panel.classList.add("translate-x-0");
+      } else {
+        document.body.classList.remove("overflow-hidden");
+        modal.classList.add("opacity-0");
+        panel.classList.remove("translate-x-0");
+        panel.classList.add("translate-x-full");
+
+        setTimeout(() => {
+          if (modal.classList.contains("opacity-0")) {
+            modal.classList.add("invisible");
+          }
+        }, 50);
+      }
+    }
+
+    document
+      .querySelector("#cartBtn")
+      ?.addEventListener("click", () => toggleModal("cart"));
+    document
+      .querySelector("#menuBtn")
+      ?.addEventListener("click", () => toggleModal("menu"));
+
+    document.querySelectorAll("#cart, #menu").forEach((m) => {
+      m.addEventListener("click", function (e) {
+        if (e.target === e.currentTarget) {
+          toggleModal(m.id);
+        }
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      show_cart();
+    });
+
+    async function productQuantity(productId, action, element_id) {
+      const response = await fetch("/get_cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: productId, action: action }),
+      });
+
+      const datos = await response.json();
+
+      if (datos.success) {
+        if (datos.amount === 0) {
+          document.getElementById(element_id).remove();
+          show_cart();
+        } else {
+          const spanCantidad = document.getElementById(`amount-${productId}`);
+          spanCantidad.textContent = datos.amount;
+        }
+      }
+    }
+
+    async function show_cart() {
+      const response = await fetch("/get_cart", { method: "GET" });
+      const data = await response.json();
+      const notification_bubble = document.getElementById("items-in-cart");
+
+      if (data.length == 0) {
+        document.getElementById("products-in-cart").innerHTML =
+          "<p>Ningun jersey en el carrito. Ve a comprar alguno!</p>";
+      } else {
+        document.getElementById("products-in-cart").innerHTML = "";
+
+        for (const d of data) {
+          let element = await lookfor(d["id"]);
+          document.getElementById("products-in-cart").innerHTML += `
+            <div class="card flex-row p-2" id="item-${d["id"]}">
+              <img src="${element.image_link}" class="card-img-top" alt="${element.name}">
+              <div class="flex-col">
+                <div class="card-body">
+                  <h5 class="card-title">${element.name}</h5>
+                  <p class="card-text">${element.description}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Price: $${element.price} US </li>
+                </ul>
+                <div class="card-body flex-row justify-content-around align-items-center">
+                  <button class="cart-card-btn" onclick="productQuantity(${d["id"]}, 'remove', 'item-${d["id"]}')">-</button>
+                  <span id="amount-${d["id"]}">${d["amount"]}</span>
+                  <button class="cart-card-btn" onclick="productQuantity(${d["id"]}, 'add', 'item-${d["id"]}')">+</button>
+                </div>
+              </div>
+            </div>
+            `;
+        }
+      }
+    }
+
+    async function lookfor(id) {
+      const response = await fetch("/lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ look_for: id }),
+      });
+
+      const data = await response.json();
+      return data;
+    }
+  </script>
+
+  {% block script %} {% endblock %}
+</html>
