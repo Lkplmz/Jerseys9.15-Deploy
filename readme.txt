@@ -2,12 +2,11 @@
 Una frase corta y potente que explique qué hace tu web (ej: "Plataforma interactiva para gestionar tareas con enfoque en productividad real").
 
 ## Índice
-Descripción
-Tecnologías
-Instalación
-Uso
-Características
-Autor
+* [Descripción](#descripción)
+* [Tecnologías](#tecnologías)
+* [Instalación](#instalación)
+* [Características](#características)
+* [Autor](#autor)
 
 ## Descripción
 Explica aquí el porqué de tu proyecto. ¿Qué problema resuelve? ¿Para quién es?
@@ -51,4 +50,5 @@ Optimización SEO.
 
 ## Autor
 Tu Nombre - Tu GitHub - Tu LinkedIn
+
 
