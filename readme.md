@@ -24,22 +24,20 @@ API: OpenWeather API / Firebase
 Si alguien quiere probar tu código localmente, dile cómo hacerlo:
 
 ### 1. Clona el repositorio:
-```Bash
-git clone https://github.com/tu-usuario/tu-proyecto.git```
+``` Bash
+git clone https://github.com/tu-usuario/tu-proyecto.git
 
 ### 2. Entra a la carpeta:
 ```Bash
-cd tu-proyecto```
+cd tu-proyecto
 
 ### 3. Instala las dependencias:
 ```Bash
-npm install```
+npm install
 
 ### 4. Ejecuta el proyecto:
 ```Bash
-npm run dev```
-
-
+npm run dev
 
 ## Características
 
@@ -49,6 +47,7 @@ Integración con pasarelas de pago.
 Optimización SEO.
 
 ## Autor
-Tu Nombre - Tu GitHub - Tu LinkedIn
+**Tu Nombre** - Tu GitHub - Tu LinkedIn
+
 
 
