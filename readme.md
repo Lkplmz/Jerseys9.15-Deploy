@@ -1,5 +1,5 @@
-# Nombre de tu Proyecto
-Una frase corta y potente que explique qué hace tu web (ej: "Plataforma interactiva para gestionar tareas con enfoque en productividad real").
+# Jerseys 9.15
+E-commerce desarrollado con Flask para una tienda real de camisetas y equipo de futbol.
 
 ## Índice
 * [Descripción](#descripción)
@@ -9,45 +9,52 @@ Una frase corta y potente que explique qué hace tu web (ej: "Plataforma interac
 * [Autor](#autor)
 
 ## Descripción
-Explica aquí el porqué de tu proyecto. ¿Qué problema resuelve? ¿Para quién es?
-Ejemplo: Esta web permite a los usuarios visualizar datos del clima en tiempo real utilizando una interfaz minimalista y rápida.
+Esta web es la solucion al clásico de: "Oye y como cambio la pagina?" Mediante el uso de una base de datos perdurable (sqlite3 debido a simpleza y pequeñez de la tienda) y la conexion a backend con Flask; la página ofrece un sistema CRUD con interfaz de usuario, estadisticas de datos sobre la página (en desarrollo) y una interfaz resposiva con el uso dual de Js y jinja2.
 
 ## Tecnologías
-Lista las herramientas principales que utilizaste:
+Todas las tecnologias utilizadas:
 
-Frontend: React.js / Vue.js / HTML5 & CSS3
-Estilos: Tailwind CSS / Sass
-Backend: Node.js / Python (si aplica)
-API: OpenWeather API / Firebase
+Frontend: HTML5 y Jinja
+Estilos: CSS3 con TailwindCss
+Backend: Flask - Python
+DB: sqlite3 manejada por SQLAlchemy
+API: una api a google que ayuda con el manejo de imagenes a la pagina.
 
 ## Instalación
-Si alguien quiere probar tu código localmente, dile cómo hacerlo:
+Si alguien quiere probar el código localmente siga estos pasos:
 
 ### 1. Clona el repositorio:
 ``` Bash
 git clone https://github.com/tu-usuario/tu-proyecto.git
+```
 
 ### 2. Entra a la carpeta:
+
 ```Bash
 cd tu-proyecto
+```
 
 ### 3. Instala las dependencias:
+
 ```Bash
-npm install
+pip install -r requirements.txt
+```
 
 ### 4. Ejecuta el proyecto:
 ```Bash
-npm run dev
+python app.py
+```
 
 ## Características
 
 Diseño Responsive (adaptado a móviles y desktop).
-Modo oscuro/claro.
-Integración con pasarelas de pago.
-Optimización SEO.
+Base de Datos perdurable con Sqlite3
+Systema de manejo de sesiones Log-in/out 
+Sistema de carrito, productos comprados y transacciones
 
 ## Autor
-**Tu Nombre** - Tu GitHub - Tu LinkedIn
+**Luca Palenzuela** - github.com/Lkplmz
+
 
 
 
